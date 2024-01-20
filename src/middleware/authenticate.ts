@@ -13,12 +13,12 @@ config()
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
     try {
-        const VITE_OPS_COOKIE_NAME = process.env.VITE_OPS_COOKIE_NAME!
-        const auth = req.cookies[VITE_OPS_COOKIE_NAME]
-        // const token = req.headers.authorization?.split(' ')[1]
-        if (auth) {
+        // const VITE_OPS_COOKIE_NAME = process.env.VITE_OPS_COOKIE_NAME!
+        // const auth = req.cookies[VITE_OPS_COOKIE_NAME]
+        const token = req.headers.authorization?.split(' ')[1]
+        if (token) {
 
-            const token = auth
+            // const token = auth
             jwt.verify(token, publicKey, {
                 algorithms: ["RS256"],
             }, async (err, decoded: string | jwt.JwtPayload | undefined | IToken) => {
