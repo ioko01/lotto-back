@@ -1,0 +1,267 @@
+@auth=jwt=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiI2aGlpYVRXRUxuU09rMFhiWGI0MyIsInRva2VuVmVyc2lvbiI6MTQ4LCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2NzQ3NDI5MjgsImV4cCI6MTY3NDc2NDUyOH0.STTWerTJNSYwrL8x_fTmzZTP7pE9VYoQfyJ5IwaJ9hAk8hV-4IK3bWp9rc7qZIpyI-1duajQH6nXJsGfxcyLnHhDTW4ts6uBp97fzAaKnd4spDoMpZ5o9fRKd7bGU54drvuA6SOVQIRnRt7pD-vPAbxuwPTGwuEkfDIia3rdFxbPH_n5u6NGePx4CQCi-avrl9rmO3QETE_J-JWmVJdDus4OFcrD5Gw5W68HiNrK8YS_5Oo12x7-G8umNlz-a7PEsg4MmrHRF_ZhSzUwfniB5yf-3heha1pKKXMrCsNWu61p-A_1BVe1Aguhx01TPBJ1sWr4A0bsCAPVVvS89EREGw
+
+
+###
+GET http://localhost:8000/get/bill/id/RIyhN9nccbfdG05decC4
+Authorization: {{auth}}
+
+
+###
+GET http://localhost:8000/get/bill/me
+Authorization: {{auth}}
+
+###
+GET http://localhost:8000/get/bill/all
+Authorization: {{auth}}
+
+###
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "username": "test01",
+    "password": "123456789"
+}
+
+###
+POST http://localhost:8000/auth/logout
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "username": "manager01",
+    "password": "123456789"
+}
+
+###
+DELETE  http://localhost:8000/delete/bill
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "id": "ukRnArzUqFkBoL043v09"
+}
+
+
+
+###
+DELETE  http://localhost:8000/delete/lotto
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "id": "4ORTN9HDmbInvWB8yoCA"
+}
+
+###
+POST http://localhost:8000/add/admin
+content-type: application/json
+
+{
+    "username": "admin01",
+    "password": "123456789",
+    "fullname": "admin",
+    "credit": 0
+}
+
+###
+POST http://localhost:8000/add/lotto
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name": "ดาวน์โจนส์ VIP",
+    "img_flag": "jone.jpg",
+    "open": "2023-01-19 06.00",
+    "close": "2023-01-19 00.10",
+    "report": "2023-01-19 00.30",
+    "status": "OPEN"
+}
+
+###
+GET http://localhost:8000/get/lotto/all
+Authorization: {{auth}}
+
+###
+GET http://localhost:8000/get/lotto/id/LAsvfoFfN6SnIeT18BzC
+Cookie: {{auth}}
+
+###
+POST http://localhost:8000/add/agent
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "username": "agent01",
+    "password": "123456789",
+    "fullname": "agent",
+    "credit": 0
+}
+
+###
+POST http://localhost:8000/add/store
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "name": "ร้านมั่นใจ",
+    "img_logo": "logo.jpg"
+}
+
+###
+GET http://localhost:8000/get/store/me
+Authorization: {{auth}}
+
+###
+GET http://localhost:8000/get/store/me/U5D7nSeVqplRp8DQi1EG
+Authorization: {{auth}}
+
+###
+GET http://localhost:8000/get/rate/id/E7mvd16zIlTw6ODBDkku
+Authorization: {{auth}}
+
+###
+GET http://localhost:8000/get/rate/me
+Authorization: {{auth}}
+
+###
+POST http://localhost:8000/add/rate
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "store_id":"U5D7nSeVqplRp8DQi1EG",
+    "lotto_id": "mEJ1muKa4K0aZbPBlgE4",
+    "one_digits": {
+        "top": "3",
+        "bottom": "4"
+    },
+    "two_digits": {
+        "top": "95",
+        "bottom": "95"
+    },
+    "three_digits": {
+        "top": "800",
+        "toad": "125"
+    },
+    "bet_one_digits": {
+        "top": "1:10000:100000",
+        "bottom": "1:10000:100000"
+    },
+    "bet_two_digits": {
+        "top": "1:10000:100000",
+        "bottom": "1:10000:100000"
+    },
+    "bet_three_digits": {
+        "top": "1:10000:100000",
+        "bottom": "1:10000:100000"
+    },
+    "committion": {
+        "one_digits": {
+            "top": "1",
+            "bottom": "1"
+        },
+        "two_digits": {
+            "top": "1",
+            "bottom": "1"
+        },
+        "three_digits": {
+            "top": "3",
+            "toad": "3"
+        }
+    }
+}
+
+###
+POST http://localhost:8000/add/manager
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "U5D7nSeVqplRp8DQi1EG",
+    "username": "manager01",
+    "password": "123456789",
+    "fullname": "manager",
+    "credit": 0
+}
+
+###
+GET http://localhost:8000/get/user/me
+Authorization: {{auth}}
+
+###
+PUT http://localhost:8000/add/credit
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "id": "v9pqnOj3aH7WqXnxerjU",
+    "credit": 10000
+}
+
+###
+POST http://localhost:8000/add/member
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "U5D7nSeVqplRp8DQi1EG",
+    "username": "test01",
+    "password": "123456789",
+    "fullname": "test01",
+    "credit": 0
+}
+
+###
+PUT http://localhost:8000/add/credit
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "id": "JBZmnPUDCA0GSOB10HpO",
+    "credit": 2000
+}
+
+###
+POST http://localhost:8000/add/bill
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "U5D7nSeVqplRp8DQi1EG",
+    "lotto_id": "mEJ1muKa4K0aZbPBlgE4",
+    "rate_id": "89MtzfwhL0UzkvZlxLQe",
+    "one_digits": [],
+    "two_digits": ["12:5:5", "21:5:5"],
+    "three_digits": [],
+    "reward": [],
+    "times": "2023-01-13",
+    "note": "asd"
+}
+
+###
+PUT http://localhost:8000/remove/credit
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "id": "FHKdAOjsQz8SCtpArqKJ",
+    "credit": 10000
+}
+
+###
+GET http://localhost:8000/get/user/all
+Authorization: {{auth}}
+
+###
+PUT http://localhost:8000/update/status/agent
+Authorization: {{auth}}
+content-type: application/json
+
+{
+    "id": "85MI669pD37GGckaKAxh",
+    "status": "REGULAR"
+}
+
+
+

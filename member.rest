@@ -1,0 +1,65 @@
+@auth=Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiJYb01zUnNqVmloUGIyY3N4UVNZaiIsInRva2VuVmVyc2lvbiI6MSwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY3NDY0MDA4MCwiZXhwIjoxNjc0NjYxNjgwfQ.qP5GnINjoy2bp3ozLBR226v4citcstzTy33dxr8lc2oRNCRSH25IwTrRSdR_vuLMLBnjgoHI5i3eP4EEDlSanWlyRSUg3rSjSDoV_d-HiQeW8sUWOeDuJbw0LC1uPXTyuaGQL6-EHg_8rnUZ7Y-E2AsxjBrsXKBkLH24p-bNc_6BAMELIfLHeQieV7UL52nVNNz2LpXrO38ZgzeM8aiJQ7pv0d_HEPeMHCRCUPhZ0Qabv00SCtbz9_PEck5zALO4wi82VpMtXpaSCzb3ZpO4gF9jG3dBHg9GaHst3tCi3pckNWsTH6Xnin4LJxg4TO8I4J43RRK-YGu9E9BlIWdZUQ
+
+###
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "username": "member01",
+    "password": "123456789"
+}
+
+###
+POST http://localhost:8000/auth/logout
+Cookie: {{auth}}
+Content-Type: application/json
+
+{
+    "username": "member01"
+}
+
+###
+GET http://localhost:8000/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/bill/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/store/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/lotto/all
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/rate/me
+Cookie: {{auth}}
+
+###
+POST http://localhost:8000/add/bill
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "3RDYTBqOjervu82IKQXm",
+    "lotto_id": "aIJ9G7antRt3s81nIO8G",
+    "rate_id": "Y8yOYqyioxr2a6fospgU",
+    "one_digits": [],
+    "two_digits": [],
+    "three_digits": ["123:50:50"],
+    "reward": [],
+    "times": "2023-01-13",
+    "note": "asd"
+}
+
+###
+PUT http://localhost:8000/delete/bill
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "id": "mwQxZya8oDCWiUgILtq8"
+}

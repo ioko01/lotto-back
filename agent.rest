@@ -1,0 +1,182 @@
+@auth=jwt=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiJwU0oyaml3V1BNajdrc0NRRzV3ViIsInRva2VuVmVyc2lvbiI6OSwicm9sZSI6IkFHRU5UIiwiaWF0IjoxNjc4MTc4NzUzLCJleHAiOjE2NzgyMDAzNTN9.IknXXYpI0yohswVN9nVWdX9dX1nhMNN9CRXIVt-W1So3dGK2VeCcOlQ3nwM-6eN96CEqxd1jq5WHtnhuPmZRqyhyCFO6xyNTEJ99VwhJZJMYf_2iYjkeiQoVPHrS8cVRtLEd1waFiw-kmXTXf1M8WjmNdrM67c1GxwXG74VGtXRbXfvsSB7M7OZAHpNz-vu9tppXrJIG-3YkpIDPwE5eR1nKFn41LwDvwlgKDDuN_9KmJ4lstwByN9GegCWKaeuu4G2fbRV_H3kmw_7S7BK2dcNG7gUepLxzvlIDumq5Toq3sz5Dlt0GCJavJjdLsc5NJ_sJ_afItne2OUtph2UVLg;
+
+###
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "username": "agent01",
+    "password": "123456789"
+}
+
+###
+POST http://localhost:8000/auth/logout
+Cookie: {{auth}}
+Content-Type: application/json
+
+{
+    "username": "agent01"
+}
+
+###
+POST http://localhost:8000/add/store
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "name": "ร้านดีดี",
+    "img_logo": "logo.jpg"
+}
+
+###
+GET http://localhost:8000/get/store/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/lotto/all
+Cookie: {{auth}}
+
+###
+POST http://localhost:8000/add/rate
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "store_id":"3RDYTBqOjervu82IKQXm",
+    "lotto_id": "LAsvfoFfN6SnIeT18BzC",
+    "one_digits": {
+        "top": "3",
+        "bottom": "4"
+    },
+    "two_digits": {
+        "top": "95",
+        "bottom": "95"
+    },
+    "three_digits": {
+        "top": "800",
+        "toad": "125"
+    },
+    "bet_one_digits": {
+        "top": "1:10000:100000",
+        "bottom": "1:10000:100000"
+    },
+    "bet_two_digits": {
+        "top": "1:10000:100000",
+        "bottom": "1:10000:100000"
+    },
+    "bet_three_digits": {
+        "top": "1:10000:100000",
+        "bottom": "1:10000:100000"
+    },
+    "committion": {
+        "one_digits": {
+            "top": "1",
+            "bottom": "1"
+        },
+        "two_digits": {
+            "top": "1",
+            "bottom": "1"
+        },
+        "three_digits": {
+            "top": "3",
+            "toad": "3"
+        }
+    }
+}
+
+###
+GET http://localhost:8000/get/rate/me/all
+Cookie: {{auth}}
+
+###
+POST http://localhost:8000/add/manager
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "3RDYTBqOjervu82IKQXm",
+    "username": "manager01",
+    "password": "123456789",
+    "fullname": "manager",
+    "credit": 0
+}
+
+###
+GET http://localhost:8000/get/user/me
+Cookie: {{auth}}
+
+###
+PUT http://localhost:8000/add/credit
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "id": "9pxJRIMKeNIRhqJlMDcZ",
+    "credit": 50000
+}
+
+###
+PUT http://localhost:8000/add/credit
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "id": "9pxJRIMKeNIRhqJlMDcZ",
+    "credit": 50000
+}
+
+
+###
+PUT http://localhost:8000/remove/credit
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "id": "FHKdAOjsQz8SCtpArqKJ",
+    "credit": 10000
+}
+
+###
+POST http://localhost:8000/add/member
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "3RDYTBqOjervu82IKQXm",
+    "username": "test01",
+    "password": "123456789",
+    "fullname": "test01",
+    "credit": 0
+}
+
+###
+POST http://localhost:8000/add/digitclose
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "lotto_id": "LAsvfoFfN6SnIeT18BzC",
+    "percent": 0,
+    "rate_id": "Y8yOYqyioxr2a6fospgU",
+    "store_id": "3RDYTBqOjervu82IKQXm",
+    "one_digits": {
+        "top": [],
+        "bottom": []
+    },
+    "two_digits": {
+        "top": ["15", "51"],
+        "bottom": ["15", "51"]
+    },
+    "three_digits": {
+        "top": [],
+        "bottom": []
+    }
+}
+
+###
+GET http://localhost:8000/get/digitclose/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/digitclose/id/LAsvfoFfN6SnIeT18BzC
+Cookie: {{auth}}

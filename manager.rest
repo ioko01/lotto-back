@@ -1,0 +1,65 @@
+@auth=jwt=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiI5cHhKUklNS2VOSVJocUpsTURjWiIsInRva2VuVmVyc2lvbiI6MSwicm9sZSI6Ik1BTkFHRVIiLCJpYXQiOjE2NzgxNzg4MjgsImV4cCI6MTY3ODIwMDQyOH0.h1vT1cOkpw-fE1fNMp88u0OtNNq3lssxvYTi_Ku45SJbikbQpf7whL1K6OZXl_EDUvmOEHDlNyjKt6B7GF7fN_ynWFkeB9JIKsdbjgVefVFaTdREWvI2CHdQuEZHbejkdnJHn9USbW81y37x1uScab8xovoouFJOxKLSGRao7_NfpZkExG7Nhi3D6PVmCRTZKDupVePndkZ19KIsj1nu4eBCMEzgn6pt4bUUXuAgBS9c6W5XO2RIJlX-aAcl1ogiyoJXFUpeLVegRZSWbQ1olf-r0HfYe9fMVCyN7MgyprxFNOPn1KFhbTI4h41A8ZHBX5jDU4ztRr2AlwZG7Mww-A;
+
+
+###
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "username": "manager01",
+    "password": "123456789"
+}
+
+###
+POST http://localhost:8000/auth/logout
+Cookie: {{auth}}
+Content-Type: application/json
+
+{
+    "username": "manager01"
+}
+
+###
+GET http://localhost:8000/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/store/me
+Cookie: {{auth}}
+
+###
+GET http://localhost:8000/get/user/me
+Cookie: {{auth}}
+
+###
+POST http://localhost:8000/add/member
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "store_id": "3RDYTBqOjervu82IKQXm",
+    "username": "member01",
+    "password": "123456789",
+    "fullname": "member01",
+    "credit": 0
+}
+
+###
+PUT http://localhost:8000/add/credit
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "id": "XoMsRsjVihPb2csxQSYj",
+    "credit": 20000
+}
+
+###
+PUT http://localhost:8000/remove/credit
+Cookie: {{auth}}
+content-type: application/json
+
+{
+    "id": "XoMsRsjVihPb2csxQSYj",
+    "credit": 10000
+}
