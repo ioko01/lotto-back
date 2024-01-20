@@ -8,12 +8,12 @@ import { DBUsers, db } from "../utils/firebase";
 
 export async function authorization(req: Request, roles: TUserRole[]) {
     try {
-        // const VITE_OPS_COOKIE_NAME = process.env.VITE_OPS_COOKIE_NAME!
-        // const auth = req.cookies[VITE_OPS_COOKIE_NAME]
-        const token = req.headers.authorization?.split(' ')[1]
+        const VITE_OPS_COOKIE_NAME = process.env.VITE_OPS_COOKIE_NAME!
+        const auth = req.cookies[VITE_OPS_COOKIE_NAME]
+        // const token = req.headers.authorization?.split(' ')[1]
 
-        if (token) {
-            // const token = auth
+        if (auth) {
+            const token = auth
             const decodedToken = jwt_decode<IToken>(token)
             const Helpers = new HelperController()
             const user = await Helpers.getId(doc(db, DBUsers, decodedToken.UID)) as IUserDoc
