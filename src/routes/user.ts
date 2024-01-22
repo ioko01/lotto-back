@@ -24,7 +24,7 @@ export class ApiUser {
                 if (authorize) {
                     if (authorize !== 401) {
                         const isMe = await Helpers.getId(doc(db, DBUsers, authorize.id)) as IUserDoc
-                        if (!isMe) return res.status(400).json({ message: "don't have user" })
+                        if (!isMe) return res.status(202).json({ message: "don't have user" })
                         // return res.json(isMe)
                         const data: IUserDoc = {
                             credit: isMe.credit,
@@ -55,7 +55,7 @@ export class ApiUser {
                     if (authorize !== 401) {
                         const q = query(usersCollectionRef, where("username", "==", data.username))
                         const isId = await Helpers.getContain(q)
-                        if (!isId) return res.status(400).json({ message: "don't have user" })
+                        if (!isId) return res.status(202).json({ message: "don't have user" })
                         // return res.json(isId)
                         return res.json(isId)
                     } else {
@@ -77,7 +77,7 @@ export class ApiUser {
                     if (authorize !== 401) {
                         const q = query(usersCollectionRef, where("user_create_id", "==", data.user_create_id))
                         const isId = await Helpers.getContain(q)
-                        if (!isId) return res.status(400).json({ message: "don't have user" })
+                        if (!isId) return res.status(202).json({ message: "don't have user" })
                         // return res.json(isId)
                         return res.json(isId)
                     } else {
@@ -108,7 +108,7 @@ export class ApiUser {
                         if (!q) return res.sendStatus(403)
 
                         const isUserMe = await Helpers.getContain(q)
-                        if (isUserMe.length === 0) return res.status(400).json({ message: "don't have user" })
+                        if (isUserMe.length === 0) return res.status(202).json({ message: "don't have user" })
                         return res.json(isUserMe)
                     } else {
                         return res.sendStatus(authorize)
@@ -127,7 +127,7 @@ export class ApiUser {
                 if (authorize) {
                     if (authorize !== 401) {
                         const user = await Helpers.getAll(usersCollectionRef) as IUserDoc[]
-                        if (!user) return res.status(400).json({ message: "don't have user" })
+                        if (!user) return res.status(202).json({ message: "don't have user" })
                         return res.json(user)
                     } else {
                         return res.sendStatus(authorize)
@@ -148,7 +148,7 @@ export class ApiUser {
                     if (authorize !== 401) {
                         const q = query(usersCollectionRef, where("role", "==", role))
                         const user = await Helpers.getContain(q)
-                        if (!user) return res.status(400).json({ message: "don't have user" })
+                        if (!user) return res.status(202).json({ message: "don't have user" })
                         return res.json(user)
                     } else {
                         return res.sendStatus(authorize)
@@ -203,7 +203,7 @@ export class ApiUser {
                             q = query(usersCollectionRef, where("agent_create_id", "==", authorize.agent_create_id), where("manager_create_id", "==", authorize.id))
                         }
 
-                        if (!q) return res.sendStatus(400)
+                        if (!q) return res.sendStatus(202)
 
                         const isUserMe = await Helpers.getContain(q)
                         if (isUserMe.length > 0) {
@@ -312,7 +312,7 @@ export class ApiUser {
                 const q2 = query(usersCollectionRef, where("username", "==", data.username))
                 const { docs } = await getDocs(q2)
 
-                if (docs.length > 0) res.sendStatus(400).send({ message: "this username has been used" })
+                if (docs.length > 0) res.sendStatus(202).send({ message: "this username has been used" })
 
                 const hashedPassword = await bcrypt.hash(data.password!, 10);
 
@@ -363,7 +363,7 @@ export class ApiUser {
                         const q = query(usersCollectionRef, where("username", "==", data.username))
                         const { docs } = await getDocs(q)
 
-                        if (docs.length > 0) res.sendStatus(400).send({ message: "this username has been used" })
+                        if (docs.length > 0) res.sendStatus(202).send({ message: "this username has been used" })
 
                         const hashedPassword = await bcrypt.hash(data.password!!, 10);
 
@@ -411,22 +411,22 @@ export class ApiUser {
                     if (authorize !== 401) {
                         const data = req.body as IUser
                         const isValidateUsername = validateUsername(data.username);
-                        if (!isValidateUsername) return res.sendStatus(400).send({ message: "username invalid" })
+                        if (!isValidateUsername) return res.sendStatus(202).send({ message: "username invalid" })
 
                         const isValidatePassword = validatePassword(data.password!);
-                        if (!isValidatePassword) return res.sendStatus(400).send({ message: "password invalid" })
+                        if (!isValidatePassword) return res.sendStatus(202).send({ message: "password invalid" })
 
                         const q = query(usersCollectionRef, where("username", "==", data.username))
                         const { docs } = await getDocs(q)
 
-                        if (docs.length > 0) return res.sendStatus(400).send({ message: "this username has been used" })
+                        if (docs.length > 0) return res.sendStatus(202).send({ message: "this username has been used" })
 
                         const hashedPassword = await bcrypt.hash(data.password!, 10);
 
-                        if (!data.store_id) return res.status(400).json({ message: "please input store" })
+                        if (!data.store_id) return res.status(202).json({ message: "please input store" })
                         const isStore = await Helpers.getId(doc(db, DBStores, data.store_id.id)) as IStoreDoc
 
-                        if (!isStore) return res.status(400).json({ message: "don't have store" })
+                        if (!isStore) return res.status(202).json({ message: "don't have store" })
                         const user: IUser = {
                             store_id: data.store_id,
                             username: data.username,
@@ -488,7 +488,7 @@ export class ApiUser {
                         const q = query(usersCollectionRef, where("username", "==", data.username))
                         const { docs } = await getDocs(q)
 
-                        if (docs.length > 0) res.sendStatus(400).send({ message: "this username has been used" })
+                        if (docs.length > 0) res.sendStatus(202).send({ message: "this username has been used" })
 
                         const hashedPassword = await bcrypt.hash(data.password!, 10);
 
@@ -578,7 +578,7 @@ export class ApiUser {
                         const data = req.body as IUserDoc
                         const q = query(usersCollectionRef, where("admin_create_id", "==", authorize.id), where(documentId(), "==", data.id))
                         const isUserMe = await Helpers.getContain(q)
-                        if (!isUserMe) return res.status(400).json({ message: "don't have user" })
+                        if (!isUserMe) return res.status(202).json({ message: "don't have user" })
 
                         const closedUser = { status: "CLOSED" } as IUser
 
@@ -587,7 +587,7 @@ export class ApiUser {
                                 return res.sendStatus(200)
                             })
                             .catch(() => {
-                                return res.status(400).json({ message: "delete agent unsuccessfully" })
+                                return res.status(202).json({ message: "delete agent unsuccessfully" })
                             })
 
                     } else {
@@ -623,7 +623,7 @@ export class ApiUser {
                                 return res.sendStatus(200)
                             })
                             .catch(() => {
-                                return res.status(400).json({ message: "delete manager unsuccessfully" })
+                                return res.status(202).json({ message: "delete manager unsuccessfully" })
                             })
                     } else {
                         return res.sendStatus(authorize)
@@ -668,7 +668,7 @@ export class ApiUser {
                                 return res.sendStatus(200)
                             })
                             .catch(() => {
-                                return res.status(400).json({ message: "delete member unsuccessfully" })
+                                return res.status(202).json({ message: "delete member unsuccessfully" })
                             })
 
                     } else {
@@ -693,13 +693,13 @@ export class ApiUser {
                 const q = query(usersCollectionRef, where("username", "==", data.username))
                 const [user] = await Helpers.getContain(q) as IUserDoc[]
 
-                if (!user) return res.status(400).send({ message: "no account" })
+                if (!user) return res.status(202).send({ message: "no account" })
 
                 const isPasswordValid = await bcrypt.compare(
                     data.password!,
                     user.password!
                 )
-                if (!isPasswordValid) return res.status(400).send({ message: "invalid password" })
+                if (!isPasswordValid) return res.status(202).send({ message: "invalid password" })
                 const token = createToken(user.id, user.tokenVersion!, user.role)
                 if (!user.tokenVersion) return res.sendStatus(403)
                 // const VITE_OPS_COOKIE_NAME = process.env.VITE_OPS_COOKIE_NAME!
@@ -725,7 +725,7 @@ export class ApiUser {
                         const q = query(usersCollectionRef, where("username", "==", data.username))
                         const users = await Helpers.getContain(q) as IUserDoc[]
 
-                        if (users.length === 0) return res.status(400).send({ message: "no account" })
+                        if (users.length === 0) return res.status(202).send({ message: "no account" })
 
                         users.map(async (user) => {
                             // const VITE_OPS_COOKIE_NAME = process.env.VITE_OPS_COOKIE_NAME!

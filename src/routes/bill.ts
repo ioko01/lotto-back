@@ -32,7 +32,7 @@ export class ApiBill {
                         if (!q) return res.sendStatus(403)
 
                         const bill = await Helpers.getContain(q)
-                        if (bill.length === 0) return res.status(400).json({ message: "don't have bill" })
+                        if (bill.length === 0) return res.status(202).json({ message: "don't have bill" })
                         return res.json(bill)
                     } else {
                         return res.sendStatus(authorize)
@@ -60,7 +60,7 @@ export class ApiBill {
                     if (authorize !== 401) {
                         const q = query(billsCollectionRef, where("user_create_id", "==", authorize.id))
                         const bill = await Helpers.getContain(q) as IBillDoc[]
-                        if (!bill) return res.status(400).json({ message: "don't have bill" })
+                        if (!bill) return res.status(202).json({ message: "don't have bill" })
                         return res.json(bill)
                     } else {
                         return res.sendStatus(authorize)
@@ -87,7 +87,7 @@ export class ApiBill {
                 if (authorize) {
                     if (authorize !== 401) {
                         const bill = await Helpers.getAll(billsCollectionRef) as IBillDoc[]
-                        if (!bill) return res.status(400).json({ message: "don't have bill" })
+                        if (!bill) return res.status(202).json({ message: "don't have bill" })
                         return res.json(bill)
                     } else {
                         return res.sendStatus(authorize)
@@ -152,11 +152,11 @@ export class ApiBill {
                         const lotto = await Helpers.getId(doc(db, DBLottos, data.lotto_id.id)) as ILottoDoc
                         const store = await Helpers.getId(doc(db, DBStores, data.store_id.id)) as IStoreDoc
 
-                        if (!rate) return res.status(400).json({ message: "don't have rate" })
-                        if (!lotto) return res.status(400).json({ message: "don't have lotto" })
-                        if (!store) return res.status(400).json({ message: "don't have store" })
+                        if (!rate) return res.status(202).json({ message: "don't have rate" })
+                        if (!lotto) return res.status(202).json({ message: "don't have lotto" })
+                        if (!store) return res.status(202).json({ message: "don't have store" })
 
-                        if (rate.lotto_id !== data.lotto_id) return res.status(400).json({ message: "don't have rate in store" })
+                        if (rate.lotto_id !== data.lotto_id) return res.status(202).json({ message: "don't have rate in store" })
                         const bill: IBill = {
                             lotto_id: data.lotto_id,
                             note: data.note,
@@ -177,17 +177,17 @@ export class ApiBill {
 
                         await Helpers.add(billsCollectionRef, bill)
                             .then(async () => {
-                                if (authorize.credit < price) return res.status(400).json({ message: "no credit" })
+                                if (authorize.credit < price) return res.status(202).json({ message: "no credit" })
                                 await Helpers.update(authorize.id, DBUsers, { credit: authorize.credit - price })
                                     .then(() => {
                                         res.send({ statusCode: res.statusCode, message: "OK" })
                                     })
                                     .catch(() => {
-                                        return res.status(400).json({ message: "update credit unsuccessfully" })
+                                        return res.status(202).json({ message: "update credit unsuccessfully" })
                                     })
                             })
                             .catch(() => {
-                                return res.status(400).json({ message: "add bill unsuccessfully" })
+                                return res.status(202).json({ message: "add bill unsuccessfully" })
                             })
                     } else {
                         return res.sendStatus(authorize)
@@ -237,7 +237,7 @@ export class ApiBill {
                             return price
                         })
 
-                        if (!price) return res.status(400).json({ message: "can not delete bill" })
+                        if (!price) return res.status(202).json({ message: "can not delete bill" })
                         await Helpers.update(data.id, DBBills, { status: "CANCEL" })
                             .then(async () => {
                                 await Helpers.update(authorize.id, DBUsers, { credit: authorize.credit + price })
@@ -245,11 +245,11 @@ export class ApiBill {
                                         res.send({ statusCode: res.statusCode, message: "OK" })
                                     })
                                     .catch(() => {
-                                        return res.status(400).json({ message: "update credit unsuccessfully" })
+                                        return res.status(202).json({ message: "update credit unsuccessfully" })
                                     })
                             })
                             .catch(error => {
-                                return res.status(400).json({ message: "delete bill unsuccessfully" })
+                                return res.status(202).json({ message: "delete bill unsuccessfully" })
                             })
                     } else {
                         return res.sendStatus(authorize)

@@ -21,7 +21,7 @@ export class ApiDigitClose {
                         const data = req.params as { id: string }
                         const q = query(digitsCloseCollectionRef, where("lotto_id", "==", data.id))
                         const [digitClose] = await Helpers.getContain(q) as IDigitCloseDoc[]
-                        if (!digitClose) return res.status(400).json({ message: "don't have digit close" })
+                        if (!digitClose) return res.status(202).json({ message: "don't have digit close" })
                         return res.json(digitClose)
                     } else {
                         return res.sendStatus(authorize)
@@ -49,7 +49,7 @@ export class ApiDigitClose {
                     if (authorize !== 401) {
                         const q = query(digitsCloseCollectionRef, where("user_create_id", "==", authorize.id))
                         const digitClose = await Helpers.getContain(q) as IDigitCloseDoc[]
-                        if (!digitClose) return res.status(400).json({ message: "don't have digit close" })
+                        if (!digitClose) return res.status(202).json({ message: "don't have digit close" })
                         return res.json(digitClose)
                     } else {
                         return res.sendStatus(authorize)
@@ -101,7 +101,7 @@ export class ApiDigitClose {
                         const data = req.body as IDigitCloseDoc
                         const q = query(digitsCloseCollectionRef, where("lotto_id", "==", data.lotto_id), where("rate_id", "==", data.rate_id), where("store_id", "==", data.store_id))
                         const isStore = await Helpers.getContain(q)
-                        if (isStore.length > 0) return res.status(400).json({ message: "this digit close has been used" })
+                        if (isStore.length > 0) return res.status(202).json({ message: "this digit close has been used" })
 
                         const digitClose: IDigitClose = {
                             lotto_id: data.lotto_id,

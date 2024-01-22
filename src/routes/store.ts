@@ -24,7 +24,7 @@ export class ApiStore {
                         const q = query(storesCollectionRef, where("user_create_id", "==", authorize.id), where(documentId(), "==", id))
 
                         const store = await Helpers.getContain(q)
-                        if (store.length === 0) return res.status(400).json({ message: "don't have store" })
+                        if (store.length === 0) return res.status(202).json({ message: "don't have store" })
                         return res.json(store)
                     } else {
                         return res.sendStatus(authorize)
@@ -62,7 +62,7 @@ export class ApiStore {
                         if (!q) return res.sendStatus(403)
 
                         const store = await Helpers.getContain(q) as IStoreDoc[]
-                        if (!store) return res.status(400).json({ message: "don't have store" })
+                        if (!store) return res.status(202).json({ message: "don't have store" })
                         return res.json(store)
                     } else {
                         return res.sendStatus(authorize)
@@ -88,7 +88,7 @@ export class ApiStore {
                 if (authorize) {
                     if (authorize !== 401) {
                         const store = await Helpers.getAll(storesCollectionRef)
-                        if (!store) return res.status(400).json({ message: "don't have store" })
+                        if (!store) return res.status(202).json({ message: "don't have store" })
                         return res.json(store)
                     } else {
                         return res.sendStatus(authorize)
@@ -116,7 +116,7 @@ export class ApiStore {
                         const data = req.body as IStoreDoc
                         const q = query(storesCollectionRef, where("name", "==", data.name))
                         const isStore = await Helpers.getContain(q)
-                        if (isStore.length > 0) return res.status(400).json({ message: "this store has been used" })
+                        if (isStore.length > 0) return res.status(202).json({ message: "this store has been used" })
                         if (data.agent_create_id) authorize = data.agent_create_id
 
                         const store: IStore = {
@@ -182,7 +182,7 @@ export class ApiStore {
                         const data = req.body as { id: string }
                         await Helpers.delete(data.id, DBStores)
                             .then((data) => {
-                                if (data === 400) return res.status(400).json({ message: "don't have store" })
+                                if (data === 400) return res.status(202).json({ message: "don't have store" })
                                 return res.send({ statusCode: res.statusCode, message: "OK" })
                             })
                             .catch(error => {

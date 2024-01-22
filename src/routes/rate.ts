@@ -27,7 +27,7 @@ export class ApiRate {
                         if (!q) return res.sendStatus(403)
 
                         const rate = await Helpers.getContain(q) as IRateDoc[]
-                        if (rate.length === 0) return res.status(400).json({ message: "don't have rate" })
+                        if (rate.length === 0) return res.status(202).json({ message: "don't have rate" })
                         return res.json(rate)
                     }
                     return res.sendStatus(authorize)
@@ -54,7 +54,7 @@ export class ApiRate {
                     if (authorize !== 401) {
                         const q = query(ratesCollectionRef, where("user_create_id", "==", authorize.agent_create_id))
                         const rate = await Helpers.getContain(q) as IRateDoc[]
-                        if (!rate) return res.status(400).json({ message: "don't have rate" })
+                        if (!rate) return res.status(202).json({ message: "don't have rate" })
                         return res.json(rate)
                     } else {
                         return res.sendStatus(authorize)
@@ -105,7 +105,7 @@ export class ApiRate {
                     if (authorize !== 401) {
                         const q = query(ratesCollectionRef, where("lotto_id.id", "==", req.params.id))
                         const [rate] = await Helpers.getContain(q) as IRateDoc[]
-                        if (!rate) return res.status(400).json({ message: "don't have rate" })
+                        if (!rate) return res.status(202).json({ message: "don't have rate" })
                         return res.json(rate)
                     } else {
                         return res.sendStatus(authorize)
@@ -140,11 +140,11 @@ export class ApiRate {
                         const data = req.body as IRate
                         const lotto = await Helpers.getId(doc(db, DBLottos, data.lotto_id.id))
                         const store = await Helpers.getId(doc(db, DBStores, data.store_id.id))
-                        if (!lotto) return res.status(400).json({ message: "don't have lotto" })
-                        if (!store) return res.status(400).json({ message: "don't have store" })
+                        if (!lotto) return res.status(202).json({ message: "don't have lotto" })
+                        if (!store) return res.status(202).json({ message: "don't have store" })
                         const q = query(ratesCollectionRef, where("store_id", "==", data.store_id), where("lotto_id", "==", data.lotto_id))
                         const checkRate = await Helpers.getContain(q)
-                        if (checkRate.length > 0) return res.status(400).json({ message: "this rate has been used" })
+                        if (checkRate.length > 0) return res.status(202).json({ message: "this rate has been used" })
                         const rate: IRate = {
                             bet_one_digits: data.bet_one_digits,
                             bet_two_digits: data.bet_two_digits,
