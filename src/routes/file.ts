@@ -45,7 +45,7 @@ export class ApiFile {
                 if (authorize) {
                     if (authorize !== 401) {
                         const options = {
-                            root: path.join(`./dist/uploads/`)
+                            root: path.join(`./uploads/`)
                         };
                         return res.sendFile(req.params.file, options, (err) => {
                             if (err) {
