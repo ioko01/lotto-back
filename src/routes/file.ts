@@ -44,9 +44,17 @@ export class ApiFile {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
-                        const options = {
-                            root: path.join(`./uploads/`)
-                        };
+                        let options
+                        if (process.env.NODE_ENV == 'production') {
+                            options = {
+                                root: path.join(`./uploads/`)
+                            };
+                        } else {
+                            options = {
+                                root: path.join(`./src/uploads/`)
+                            };
+                        }
+
                         return res.sendFile(req.params.file, options, (err) => {
                             if (err) {
                                 console.log(err);
