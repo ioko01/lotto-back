@@ -49,7 +49,7 @@
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy-assets": "npx cpy 'src/uploads/*' 'dist/uploads'",
+    "copy-assets": "cp './src/uploads/**' './dist'",
     "postinstall": "tsc"
   },
   "keywords": [],
