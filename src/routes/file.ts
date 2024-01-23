@@ -4,6 +4,7 @@ import { TUserRole } from "../models/User"
 import { authorization } from "../middleware/authorization"
 import { UploadedFile } from 'express-fileupload'
 import path from "path"
+import utf8 from "utf8"
 
 export class ApiFile {
 
@@ -17,7 +18,7 @@ export class ApiFile {
                             const file = req.files.File as UploadedFile
                             const filename = file.name
                             if (file.mimetype.match("image/")) {
-                                file.mv(`./src/uploads/${filename}`, (err) => {
+                                file.mv(`./src/uploads/${utf8.decode(filename)}`, (err) => {
                                     if (err) return res.send(err)
                                     return res.send("File Uploaded")
                                 })

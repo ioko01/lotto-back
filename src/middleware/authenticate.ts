@@ -29,7 +29,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
                     decodedToken.UID = decode.UID;
                     decodedToken.tokenVersion = decode.tokenVersion;
                     //Check 5 min to create token
-                    if (Date.now() / 1000 - decode.iat > 60 * 5 * 1000) {
+                    if (Date.now() / 1000 - decode.iat > 60 * 30 * 1000) {
                         const User = new HelperController()
                         const user = await User.getId(doc(db, DBUsers, decodedToken.UID)) as IUserDoc
                         if (user) {
