@@ -47,7 +47,7 @@ export class ApiFile {
                         let options
                         if (process.env.NODE_ENV == 'production') {
                             options = {
-                                root: path.join(`./uploads/`)
+                                root: path.join(`/dist/uploads/`)
                             };
                         } else {
                             options = {
