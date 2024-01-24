@@ -20,7 +20,7 @@ export class ApiFile {
                             if (file.mimetype.match("image/")) {
                                 let upload
                                 if (process.env.NODE_ENV == 'production') {
-                                    upload = `./uploads/${utf8.decode(filename).trim()}`
+                                    upload = `./dist/uploads/${utf8.decode(filename).trim()}`
                                 } else {
                                     upload = `./src/uploads/${utf8.decode(filename).trim()}`
                                 }
@@ -53,7 +53,7 @@ export class ApiFile {
                         let options
                         if (process.env.NODE_ENV == 'production') {
                             options = {
-                                root: path.join(`./uploads/`)
+                                root: path.join(`./dist/uploads/`)
                             };
                         } else {
                             options = {
