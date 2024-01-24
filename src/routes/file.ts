@@ -5,6 +5,7 @@ import { authorization } from "../middleware/authorization"
 import { UploadedFile } from 'express-fileupload'
 import path from "path"
 import utf8 from "utf8"
+import { getPath } from "../utils/path"
 
 export class ApiFile {
 
@@ -18,12 +19,7 @@ export class ApiFile {
                             const file = req.files.File as UploadedFile
                             const filename = file.name
                             if (file.mimetype.match("image/")) {
-                                let upload
-                                if (process.env.NODE_ENV == 'production') {
-                                    upload = `./dist/uploads/${utf8.decode(filename).trim()}`
-                                } else {
-                                    upload = `./src/uploads/${utf8.decode(filename).trim()}`
-                                }
+                                const upload = `${getPath()}${utf8.decode(filename).trim()}`
                                 file.mv(upload, (err) => {
                                     if (err) return res.send(err)
                                     return res.send("File Uploaded")
@@ -50,16 +46,9 @@ export class ApiFile {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
-                        let options
-                        if (process.env.NODE_ENV == 'production') {
-                            options = {
-                                root: path.join(`./dist/uploads/`)
-                            };
-                        } else {
-                            options = {
-                                root: path.join(`./src/uploads/`)
-                            };
-                        }
+                        let options = {
+                            root: path.join(getPath())
+                        };
 
                         return res.sendFile(req.params.file, options, (err) => {
                             if (err) {
