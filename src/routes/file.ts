@@ -18,7 +18,13 @@ export class ApiFile {
                             const file = req.files.File as UploadedFile
                             const filename = file.name
                             if (file.mimetype.match("image/")) {
-                                file.mv(`./src/uploads/${utf8.decode(filename).trim()}`, (err) => {
+                                let upload
+                                if (process.env.NODE_ENV == 'production') {
+                                    upload = `./uploads/${utf8.decode(filename).trim()}`
+                                } else {
+                                    upload = `./src/uploads/${utf8.decode(filename).trim()}`
+                                }
+                                file.mv(upload, (err) => {
                                     if (err) return res.send(err)
                                     return res.send("File Uploaded")
                                 })
