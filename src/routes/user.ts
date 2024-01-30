@@ -34,6 +34,7 @@ export class ApiUser {
                             status: isMe.status,
                             username: isMe.username,
                             id: isMe.id,
+                            store_id: isMe.store_id
                         }
                         return res.json(data)
                     } else {

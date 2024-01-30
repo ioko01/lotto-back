@@ -25,6 +25,7 @@ export async function authorization(req: Request, roles: TUserRole[]) {
                     role: user.role,
                     status: user.status,
                     username: user.username,
+                    store_id: user.store_id
                 }
                 if (user.admin_create_id) isUser.admin_create_id = user.admin_create_id
                 if (user.agent_create_id) isUser.agent_create_id = user.agent_create_id

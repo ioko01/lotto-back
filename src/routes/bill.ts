@@ -156,7 +156,8 @@ export class ApiBill {
                         if (!lotto) return res.status(202).json({ message: "don't have lotto" })
                         if (!store) return res.status(202).json({ message: "don't have store" })
 
-                        if (rate.lotto_id !== data.lotto_id) return res.status(202).json({ message: "don't have rate in store" })
+                        if (rate.lotto_id.id !== data.lotto_id.id) return res.status(202).json({ message: "don't have rate in store" })
+
                         const bill: IBill = {
                             lotto_id: data.lotto_id,
                             note: data.note,
@@ -167,7 +168,7 @@ export class ApiBill {
                             one_digits: data.one_digits,
                             two_digits: data.two_digits,
                             three_digits: data.three_digits,
-                            reward: data.reward,
+                            reward: data.reward ?? [],
                             created_at: GMT(),
                             updated_at: GMT(),
                             user_create_id: authorize
