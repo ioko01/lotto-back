@@ -175,7 +175,7 @@ export class ApiBill {
                         }
 
                         const price = this.calculatePrice(data.one_digits!, data.two_digits!, data.three_digits!)
-                        console.log("asd")
+                        
                         await Helpers.add(billsCollectionRef, bill)
                             .then(async () => {
                                 if (authorize.credit < price) return res.status(202).json({ message: "no credit" })
