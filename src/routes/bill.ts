@@ -58,7 +58,7 @@ export class ApiBill {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
-                        const q = query(billsCollectionRef, where("user_create_id", "==", authorize.id))
+                        const q = query(billsCollectionRef, where("user_create_id.id", "==", authorize.id))
                         const bill = await Helpers.getContain(q) as IBillDoc[]
                         if (!bill) return res.status(202).json({ message: "don't have bill" })
                         return res.json(bill)
