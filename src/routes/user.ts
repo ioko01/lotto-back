@@ -47,6 +47,29 @@ export class ApiUser {
         })
     }
 
+    getCredit = (url: string, middleware: (req: Request, res: Response, next: NextFunction) => void, roles: TUserRole[]) => {
+        router.get(url, middleware, async (req: Request, res: Response) => {
+            try {
+                const authorize = await authorization(req, roles)
+                if (authorize) {
+                    if (authorize !== 401) {
+                        const isMe = await Helpers.getId(doc(db, DBUsers, authorize.id)) as IUserDoc
+                        if (!isMe) return res.status(202).json({ message: "don't have user" })
+                        // return res.json(isMe)
+                        const data = {
+                            credit: isMe.credit
+                        }
+                        return res.json(data)
+                    } else {
+                        return res.sendStatus(authorize)
+                    }
+                }
+            } catch (err: any) {
+                res.send(err)
+            }
+        })
+    }
+
     getUsername = (url: string, middleware: (req: Request, res: Response, next: NextFunction) => void, roles: TUserRole[]) => {
         router.post(url, middleware, async (req: Request, res: Response) => {
             try {

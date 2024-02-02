@@ -26,6 +26,7 @@ import upload from 'express-fileupload'
 import { ApiFile } from './routes/file';
 import { createServer, proxy } from 'aws-serverless-express';
 import { Handler } from '@netlify/functions';
+import { creditHandler } from './socket/creditHandler';
 
 config()
 
@@ -57,6 +58,7 @@ io.on("connection", (socket: Socket<ClientToServerEvents, ServerToClientEvents, 
     digitCloseHandler(socket)
     userHandler(socket)
     storeHandler(socket)
+    creditHandler(socket)
 
     socket.on("disconnect", () => {
         console.log("user is disconnected");
@@ -122,6 +124,7 @@ User.getUserAll('/get/user/all', authenticate, ["ADMIN"])// ดูผู้ใ�
 User.getUserAllIsRole('/get/user/role/:role', authenticate, ["ADMIN"])// ดูผู้ใช้งานตำแหน่ง
 User.getUserAllMe('/get/user/me', authenticate, ["ADMIN", "AGENT", "MANAGER"])// ดูผู้ใช้งานลูกข่ายตัวเอง
 User.getMe('/me', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])// ดูข้อมูลตัวเอง
+User.getCredit('/credit', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])// ดูข้อมูลตัวเอง
 User.getUsername('/username', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])// ดูข้อมูลไอดี
 User.getId('/id', authenticate, ["ADMIN"])// ดูข้อมูลไอดี
 
