@@ -151,12 +151,44 @@ export class ApiBill {
                         const rate = await Helpers.getId(doc(db, DBRates, data.rate_id.id)) as IRateDoc
                         const lotto = await Helpers.getId(doc(db, DBLottos, data.lotto_id.id)) as ILottoDoc
                         const store = await Helpers.getId(doc(db, DBStores, data.store_id.id)) as IStoreDoc
+                        let commissions: number = 0
 
                         if (!rate) return res.status(202).json({ message: "don't have rate" })
                         if (!lotto) return res.status(202).json({ message: "don't have lotto" })
                         if (!store) return res.status(202).json({ message: "don't have store" })
 
-                        if (rate.lotto_id.id !== data.lotto_id.id) return res.status(202).json({ message: "don't have rate in store" })
+                        if (rate.lotto_id.id == data.lotto_id.id) {
+                            if (data.rate_id.committion.one_digits) {
+                                if (data.one_digits) {
+                                    data.one_digits.map((p) => {
+                                        if (data.rate_id.committion.one_digits) {
+                                            commissions += (parseFloat(p.split(":")[1]) * parseFloat(data.rate_id.committion.one_digits.top!.toString()) / 100)
+                                            commissions += (parseFloat(p.split(":")[2]) * parseFloat(data.rate_id.committion.one_digits.bottom!.toString()) / 100)
+                                        }
+                                    })
+                                }
+
+                                if (data.two_digits) {
+                                    data.two_digits.map((p) => {
+                                        if (data.rate_id.committion.two_digits) {
+                                            commissions += (parseFloat(p.split(":")[1]) * parseFloat(data.rate_id.committion.two_digits.top!.toString()) / 100)
+                                            commissions += (parseFloat(p.split(":")[2]) * parseFloat(data.rate_id.committion.two_digits.bottom!.toString()) / 100)
+                                        }
+                                    })
+                                }
+
+                                if (data.three_digits) {
+                                    data.three_digits.map((p) => {
+                                        if (data.rate_id.committion.three_digits) {
+                                            commissions += (parseFloat(p.split(":")[1]) * parseFloat(data.rate_id.committion.three_digits.top!.toString()) / 100)
+                                            commissions += (parseFloat(p.split(":")[2]) * parseFloat(data.rate_id.committion.three_digits.toad!.toString()) / 100)
+                                        }
+                                    })
+                                }
+                            }
+                        } else {
+                            return res.status(202).json({ message: "don't have rate in store" })
+                        }
 
                         const bill: IBill = {
                             lotto_id: data.lotto_id,
@@ -175,11 +207,12 @@ export class ApiBill {
                         }
 
                         const price = this.calculatePrice(data.one_digits!, data.two_digits!, data.three_digits!)
-                        
+
                         await Helpers.add(billsCollectionRef, bill)
                             .then(async () => {
-                                if (authorize.credit < price) return res.status(202).json({ message: "no credit" })
-                                await Helpers.update(authorize.id, DBUsers, { credit: authorize.credit - price })
+                                if (authorize.credit < (price - commissions)) return res.status(202).json({ message: "no credit" })
+
+                                await Helpers.update(authorize.id, DBUsers, { credit: authorize.credit - (price - commissions) })
                                     .then(() => {
                                         res.send({ statusCode: res.statusCode, message: "OK" })
                                     })
