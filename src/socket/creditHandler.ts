@@ -7,6 +7,7 @@ export const creditHandler = (socket: Socket<ClientToServerEvents, ServerToClien
 
     const createCredit = () => {
         io.emit("get_credit")
+        console.log("get credit");
     }
 
     socket.on("create_credit", createCredit)
