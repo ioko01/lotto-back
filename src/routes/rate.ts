@@ -36,12 +36,12 @@ export class ApiRate {
                 }
 
             } catch (err: any) {
-                if (err.code === 11000) {
-                    return res.status(409).json({
-                        status: 'fail',
-                        message: 'username already exist',
-                    });
-                }
+                // if (err.code === 11000) {
+                //     return res.status(409).json({
+                //         status: 'fail',
+                //         message: 'username already exist',
+                //     });
+                // }
             }
         })
     }
@@ -63,12 +63,12 @@ export class ApiRate {
                     return res.sendStatus(401)
                 }
             } catch (err: any) {
-                if (err.code === 11000) {
-                    return res.status(409).json({
-                        status: 'fail',
-                        message: 'username already exist',
-                    });
-                }
+                // if (err.code === 11000) {
+                //     return res.status(409).json({
+                //         status: 'fail',
+                //         message: 'username already exist',
+                //     });
+                // }
             }
         })
     }
@@ -87,12 +87,12 @@ export class ApiRate {
                     return res.sendStatus(401)
                 }
             } catch (err: any) {
-                if (err.code === 11000) {
-                    return res.status(409).json({
-                        status: 'fail',
-                        message: 'username already exist',
-                    });
-                }
+                // if (err.code === 11000) {
+                //     return res.status(409).json({
+                //         status: 'fail',
+                //         message: 'username already exist',
+                //     });
+                // }
             }
         })
     }
@@ -114,12 +114,12 @@ export class ApiRate {
                     return res.sendStatus(401)
                 }
             } catch (err: any) {
-                if (err.code === 11000) {
-                    return res.status(409).json({
-                        status: 'fail',
-                        message: 'username already exist',
-                    });
-                }
+                // if (err.code === 11000) {
+                //     return res.status(409).json({
+                //         status: 'fail',
+                //         message: 'username already exist',
+                //     });
+                // }
             }
         })
     }
