@@ -124,8 +124,8 @@ export class ApiLotto {
                             .then(() => {
                                 return res.send({ statusCode: res.statusCode, message: "OK" })
                             })
-                            .catch(() => {
-                                return res.status(202).json({ message: "add lotto unsuccessfully" })
+                            .catch((e) => {
+                                return res.status(202).json({ message: "add lotto unsuccessfully : " + e })
                             })
                     } else {
                         return res.sendStatus(authorize)
