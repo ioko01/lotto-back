@@ -27,6 +27,8 @@ import { ApiFile } from './routes/file';
 import { createServer, proxy } from 'aws-serverless-express';
 import { Handler } from '@netlify/functions';
 import { creditHandler } from './socket/creditHandler';
+import * as fs from 'fs';
+import { getPath } from './utils/path';
 
 config()
 
@@ -165,6 +167,10 @@ File.previewFile('/get/file/:file', authenticate, ["ADMIN", "AGENT", "MANAGER", 
 // รอผลออกและให้ MANAGE_REWARD เป็นคนกรอกผล
 router.get("/", (_, res: Response) => {
     res.send("Welcome to API")
+})
+
+router.get("/.well-known/pki-validation/BD440E5D820294857EAA16862E70CEB0.txt", (_, res: Response) => {
+    fs.readFileSync(`${getPath()}BD440E5D820294857EAA16862E70CEB0.txt`, 'utf8')
 })
 
 APP.use("/", router)
