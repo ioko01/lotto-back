@@ -170,7 +170,8 @@ router.get("/", (_, res: Response) => {
 })
 
 router.get("/.well-known/pki-validation/BD440E5D820294857EAA16862E70CEB0.txt", (_, res: Response) => {
-    fs.readFileSync(`${getPath()}BD440E5D820294857EAA16862E70CEB0.txt`, 'utf8')
+    const f = fs.readFileSync(`${getPath()}BD440E5D820294857EAA16862E70CEB0.txt`, 'utf8')
+    if(f) res.json("success")
 })
 
 APP.use("/", router)
