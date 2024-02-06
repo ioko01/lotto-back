@@ -29,6 +29,7 @@ import { Handler } from '@netlify/functions';
 import { creditHandler } from './socket/creditHandler';
 import * as fs from 'fs';
 import { getPath } from './utils/path';
+import { privateKey, publicKey } from './utils/keys';
 
 config()
 
@@ -169,15 +170,11 @@ router.get("/", (_, res: Response) => {
     res.send("Welcome to API")
 })
 
-router.get("/.well-known/pki-validation/BD440E5D820294857EAA16862E70CEB0.txt", (_, res: Response) => {
-    const f = fs.readFileSync(`${getPath()}BD440E5D820294857EAA16862E70CEB0.txt`, 'utf8')
-    if(f) res.json("success")
-})
-
 APP.use("/", router)
 
 server.listen(PORT, () => {
     console.log(`⚡️[server]: Example app listening on port ${PORT}`)
+    console.log(publicKey, privateKey);
 })
 // export const handler = serverless(APP);
 // export const handler: Handler = (event: any, context: any) => {
