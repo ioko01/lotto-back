@@ -26,7 +26,7 @@ export async function authorization(req: Request, roles: TUserRole[]) {
                     status: user.status,
                     username: user.username,
                 }
-                if (user.store_id) Object.assign({ store_id: user.store_id })
+                if (user.store_id) Object.assign(isUser, { store_id: user.store_id })
 
                 if (user.admin_create_id) isUser.admin_create_id = user.admin_create_id
                 if (user.agent_create_id) isUser.agent_create_id = user.agent_create_id

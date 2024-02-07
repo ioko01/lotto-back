@@ -35,7 +35,7 @@ export class ApiUser {
                             username: isMe.username,
                             id: isMe.id,
                         }
-                        if (isMe.store_id) Object.assign({ store_id: isMe.store_id })
+                        if (isMe.store_id) Object.assign(data, { store_id: isMe.store_id })
                         return res.json(data)
                     } else {
                         return res.sendStatus(authorize)

@@ -174,7 +174,6 @@ APP.use("/", router)
 
 server.listen(PORT, () => {
     console.log(`⚡️[server]: Example app listening on port ${PORT}`)
-    console.log(publicKey, privateKey);
 })
 // export const handler = serverless(APP);
 // export const handler: Handler = (event: any, context: any) => {
