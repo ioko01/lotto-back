@@ -6,48 +6,12 @@ import { getDocs, addDoc, updateDoc, doc, Query, deleteDoc, CollectionReference,
 import { hash } from "bcrypt";
 import { GMT } from "../utils/time";
 import { ILotto } from "../models/Lotto";
-import { IToken } from "../models/Token";
 import { IRate } from "../models/Rate";
 import { IDigitSemi } from "../models/DigitSemi";
 import { IDigitClose } from "../models/DigitClose";
 import { ICheckReward } from "../models/CheckReward";
 import { ICommission } from "../models/Commission";
-
-export interface IBillDoc extends IBill {
-    id: string;
-}
-
-export interface IUserDoc extends IUser {
-    id: string;
-}
-
-export interface IStoreDoc extends IStore {
-    id: string;
-}
-
-export interface ILottoDoc extends ILotto {
-    id: string;
-}
-
-export interface IRateDoc extends IRate {
-    id: string;
-}
-
-export interface IDigitSemiDoc extends IDigitSemi {
-    id: string;
-}
-
-export interface IDigitCloseDoc extends IDigitClose {
-    id: string;
-}
-
-export interface ICheckRewardDoc extends ICheckReward {
-    id: string;
-}
-
-export interface ICommissionDoc extends ICommission {
-    id: string;
-}
+import { IBillDoc, ICheckRewardDoc, ICommissionDoc, IDigitCloseDoc, IDigitSemiDoc, ILottoDoc, IRateDoc, IStoreDoc, IUserDoc } from "../models/Id";
 
 export class HelperController {
 

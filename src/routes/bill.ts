@@ -1,13 +1,14 @@
-import { IBillDoc } from "../helpers/Bill";
+
 import { NextFunction, Request, Response } from 'express'
 import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
-import { DBBills, DBLottos, DBRates, DBStores, DBUsers, billsCollectionRef, db, storesCollectionRef } from "../utils/firebase";
+import { DBBills, DBLottos, DBRates, DBStores, DBUsers, billsCollectionRef, db } from "../utils/firebase";
 import { DocumentData, Query, doc, documentId, query, where } from "firebase/firestore";
 import { IBill } from "../models/Bill";
 import { GMT } from "../utils/time";
-import { HelperController, ILottoDoc, IRateDoc, IStoreDoc } from "../helpers/Default";
+import { HelperController } from "../helpers/Default";
+import { IBillDoc, ILottoDoc, IRateDoc, IStoreDoc } from '../models/Id';
 
 const Helpers = new HelperController()
 

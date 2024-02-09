@@ -118,7 +118,8 @@ DigitClose.deleteDigitClose('/delete/digitclose', authenticate, ["ADMIN", "AGENT
 
 // CheckReward.getCheckRewardId('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER"])
 // CheckReward.getCheckRewardMe('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER"])
-CheckReward.getCheckRewardAll('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
+CheckReward.getCheckRewardAll('/get/reward/all', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
+CheckReward.getCheckRewardStore('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
 CheckReward.addCheckReward('/add/store', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
 CheckReward.updateCheckReward('/add/store', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
 CheckReward.deleteCheckReward('/add/store', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])

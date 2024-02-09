@@ -3,11 +3,11 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { HelperController } from "../helpers/Default";
-import { DBDigitsClose, db, digitsCloseCollectionRef } from '../utils/firebase';
-import { doc, query, where } from 'firebase/firestore';
-import { IDigitCloseDoc } from '../helpers/Default';
+import { digitsCloseCollectionRef } from '../utils/firebase';
+import { query, where } from 'firebase/firestore';
 import { IDigitClose } from '../models/DigitClose';
 import { GMT } from '../utils/time';
+import { IDigitCloseDoc } from '../models/Id';
 
 const Helpers = new HelperController()
 

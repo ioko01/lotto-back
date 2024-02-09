@@ -2,11 +2,12 @@ import { NextFunction, Request, Response } from 'express'
 import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
-import { DBBills, DBLottos, db, lottosCollectionRef } from "../utils/firebase";
+import { DBLottos, db, lottosCollectionRef } from "../utils/firebase";
 import { doc, query, where } from "firebase/firestore";
 import { GMT } from "../utils/time";
-import { HelperController, ILottoDoc } from "../helpers/Default";
-import { ILotto, TLottoStatusEnum } from "../models/Lotto";
+import { HelperController } from "../helpers/Default";
+import { ILotto } from "../models/Lotto";
+import { ILottoDoc } from '../models/Id';
 
 const Helpers = new HelperController()
 

@@ -2,9 +2,10 @@ import { Request } from "express";
 import jwt_decode from "jwt-decode";
 import { IToken } from "../models/Token";
 import { TUserRole } from "../models/User";
-import { HelperController, IUserDoc } from "../helpers/Default";
+import { HelperController } from "../helpers/Default";
 import { doc } from "firebase/firestore";
 import { DBUsers, db } from "../utils/firebase";
+import { IUserDoc } from "../models/Id";
 
 export async function authorization(req: Request, roles: TUserRole[]) {
     try {

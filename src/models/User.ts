@@ -1,4 +1,5 @@
-import { IStoreDoc } from "../helpers/Default"
+
+import { IStoreDoc } from "./Id"
 import { IInitialState } from "./Main"
 
 export type TUserRole = "ADMIN" | "AGENT" | "MANAGER" | "MEMBER" | "MANAGE_REWARD"

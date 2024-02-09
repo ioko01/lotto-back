@@ -1,10 +1,7 @@
+import { IStoreDoc } from "../models/Id";
 import { IStore } from "../models/Store";
 import { db, storesCollectionRef, DBStores } from "../utils/firebase";
 import { getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
-
-export interface IStoreDoc extends IStore {
-    id: string;
-}
 
 export class StoreController {
 

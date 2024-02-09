@@ -3,11 +3,12 @@ import jwt from 'jsonwebtoken';
 import { privateKey, publicKey } from "../utils/keys";
 import { TUserRole } from "../models/User";
 import { IToken } from "../models/Token";
-import { HelperController, IUserDoc } from "../helpers/Default";
+import { HelperController } from "../helpers/Default";
 import jwt_decode from "jwt-decode";
 import { doc } from "firebase/firestore";
 import { DBUsers, db } from "../utils/firebase";
 import { config } from "dotenv";
+import { IUserDoc } from "../models/Id";
 
 config()
 
@@ -49,7 +50,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
                             }
                         }
                     } else {
-                            next()
+                        next()
                     }
                     // next()
                 }

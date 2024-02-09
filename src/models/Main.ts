@@ -1,5 +1,5 @@
-import { IUserDoc } from "../helpers/Default"
-import { IUser } from "./User"
+import { IUserDoc } from "./Id"
+
 
 export interface IInitialState {
     created_at?: Date | FirebaseTimestamp

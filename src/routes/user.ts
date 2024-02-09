@@ -8,8 +8,9 @@ import bcrypt from "bcrypt";
 import { GMT } from '../utils/time';
 import { createToken } from '../middleware/authenticate';
 import { config } from "dotenv";
-import { HelperController, IStoreDoc, IUserDoc } from '../helpers/Default';
+import { HelperController } from '../helpers/Default';
 import { authorization } from '../middleware/authorization';
+import { IStoreDoc, IUserDoc } from '../models/Id';
 
 config()
 

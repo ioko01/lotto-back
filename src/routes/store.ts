@@ -2,11 +2,12 @@ import { NextFunction, Request, Response } from 'express'
 import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
-import { HelperController, IStoreDoc, IUserDoc } from "../helpers/Default";
+import { HelperController } from "../helpers/Default";
 import { DBStores, storesCollectionRef } from '../utils/firebase';
 import { DocumentData, Query, documentId, query, where } from 'firebase/firestore';
 import { GMT } from '../utils/time';
 import { IStore } from '../models/Store';
+import { IStoreDoc, IUserDoc } from '../models/Id';
 
 const Helpers = new HelperController()
 

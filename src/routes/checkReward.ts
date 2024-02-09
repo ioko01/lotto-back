@@ -7,6 +7,30 @@ import { HelperController } from "../helpers/Default";
 const Helpers = new HelperController()
 
 export class ApiCheckReward {
+    getCheckRewardAll = (url: string, middleware: (req: Request, res: Response, next: NextFunction) => void, roles: TUserRole[]) => {
+        router.get(url, middleware, async (req: Request, res: Response) => {
+            try {
+                const authorize = await authorization(req, roles)
+                if (authorize) {
+                    if (authorize !== 401) {
+
+                    } else {
+                        return res.sendStatus(authorize)
+                    }
+                } else {
+                    return res.sendStatus(401)
+                }
+            } catch (err: any) {
+                // if (err.code === 11000) {
+                //     return res.status(409).json({
+                //         status: 'fail',
+                //         message: 'username already exist',
+                //     });
+                // }
+            }
+        })
+    }
+
     getCheckRewardId = (url: string, middleware: (req: Request, res: Response, next: NextFunction) => void, roles: TUserRole[]) => {
         router.get(url, middleware, async (req: Request, res: Response) => {
             try {
@@ -55,7 +79,7 @@ export class ApiCheckReward {
         })
     }
 
-    getCheckRewardAll = (url: string, middleware: (req: Request, res: Response, next: NextFunction) => void, roles: TUserRole[]) => {
+    getCheckRewardStore = (url: string, middleware: (req: Request, res: Response, next: NextFunction) => void, roles: TUserRole[]) => {
         router.get(url, middleware, async (req: Request, res: Response) => {
             try {
                 const authorize = await authorization(req, roles)

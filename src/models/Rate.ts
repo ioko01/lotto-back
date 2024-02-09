@@ -1,9 +1,8 @@
-import { ILottoDoc, IStoreDoc } from "../helpers/Default";
+
 import { ICommission } from "./Commission";
 import { IDigitPosition } from "./DigitPosition";
-import { ILotto } from "./Lotto";
+import { ILottoDoc, IStoreDoc } from "./Id";
 import { IInitialState } from "./Main";
-import { IStore } from "./Store";
 
 export interface IRate extends IInitialState {
     store_id: IStoreDoc //ไอดีร้าน

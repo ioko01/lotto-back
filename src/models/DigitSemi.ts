@@ -1,9 +1,7 @@
-import { ILottoDoc, IRateDoc, IStoreDoc } from "../helpers/Default";
+
 import { IDigitPosition } from "./DigitPosition";
-import { ILotto } from "./Lotto";
+import { ILottoDoc, IRateDoc, IStoreDoc } from "./Id";
 import { IInitialState } from "./Main";
-import { IRate } from "./Rate";
-import { IStore } from "./Store";
 
 export interface IDigitSemi extends IInitialState {
     store_id: IStoreDoc //ไอดีร้าน

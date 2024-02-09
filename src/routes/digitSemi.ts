@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
-import { HelperController, IDigitSemiDoc } from "../helpers/Default";
+import { HelperController } from "../helpers/Default";
 import { DBDigitsSemi, digitsSemiCollectionRef } from '../utils/firebase';
 import { db } from '../utils/firebase';
 import { doc, query, where } from 'firebase/firestore';

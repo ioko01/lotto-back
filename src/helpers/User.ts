@@ -2,12 +2,9 @@ import bcrypt from "bcrypt";
 import { IUser } from "../models/User";
 import { TUserRoleEnum } from "../models/User";
 import { DBUsers, db, usersCollectionRef } from "../utils/firebase";
-import { getDocs, addDoc, updateDoc, doc, where, query, WhereFilterOp, Query } from "firebase/firestore";
+import { getDocs, addDoc, updateDoc, doc, where, query, Query } from "firebase/firestore";
 import { GMT } from "../utils/time";
-
-export interface IUserDoc extends IUser {
-    id: string;
-}
+import { IUserDoc } from "../models/Id";
 
 export class UserController {
 

@@ -1,5 +1,5 @@
-import { ILottoDoc } from "../helpers/Default";
-import { ILotto } from "./Lotto";
+
+import { ILottoDoc } from "./Id";
 import { IInitialState } from "./Main";
 
 export interface ICheckReward extends IInitialState {
