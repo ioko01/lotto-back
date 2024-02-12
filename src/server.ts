@@ -72,7 +72,9 @@ io.on("connection", (socket: Socket<ClientToServerEvents, ServerToClientEvents, 
 // :id = ไอดีที่ต้องการ :store = ไอดีร้าน
 Bill.getBillAllMe('/get/bill/id/:id', authenticate, ["ADMIN", "AGENT", "MANAGER"])// ดูบิลทั้งหมดของร้านตัวเอง
 Bill.getBillAll('/get/bill/all', authenticate, ["ADMIN"])// ดูบิลทั้งหมด
-Bill.getBillMe('/get/bill/me', authenticate, ["MEMBER"])// ดูบิลของฉัน
+
+// :start = วันที่เริ่มต้น :end = วันที่สิ้นสุด
+Bill.getBillMe('/get/bill/me/:start/:end', authenticate, ["MEMBER"])// ดูบิลของฉัน
 Bill.addBill('/add/bill', authenticate, ["MEMBER"]) // เพิ่มบิล
 // Bill.updateBill('/update/bill', authenticate, ["MANAGER"])
 Bill.deleteBill('/delete/bill', authenticate, ["MANAGER", "MEMBER"])
