@@ -4,7 +4,7 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { DBBills, DBLottos, DBRates, DBStores, DBUsers, billsCollectionRef, db } from "../utils/firebase";
-import { DocumentData, Query, doc, documentId, query, where } from "firebase/firestore";
+import { DocumentData, Query, doc, documentId, endAt, query, startAt, where } from "firebase/firestore";
 import { IBill } from "../models/Bill";
 import { GMT } from "../utils/time";
 import { HelperController } from "../helpers/Default";
@@ -59,8 +59,11 @@ export class ApiBill {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
-                        const date_start = new Date(req.params.start)
-                        const date_end = new Date(req.params.end)
+                        const st = req.params.start.split("-")
+                        const en = req.params.end.split("-")
+                        const date_start = new Date(`${st[1]}/${st[0]}/${st[2]}`)
+                        const date_end = new Date(`${en[1]}/${en[0]}/${en[2]}`)
+                        date_end.setDate(date_end.getDate() + 1)
 
                         const q = query(billsCollectionRef, where("user_create_id.id", "==", authorize.id), where("created_at", ">=", date_start), where("created_at", "<", date_end))
                         const bill = await Helpers.getContain(q) as IBillDoc[]
@@ -74,6 +77,7 @@ export class ApiBill {
                 }
 
             } catch (err: any) {
+                console.log(err);
                 // if (err.code === 11000) {
                 //     return res.status(409).json({
                 //         status: 'fail',
