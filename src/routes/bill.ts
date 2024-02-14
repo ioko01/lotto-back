@@ -4,7 +4,7 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { DBBills, DBLottos, DBRates, DBStores, DBUsers, billsCollectionRef, db } from "../utils/firebase";
-import { DocumentData, Query, doc, documentId, endAt, query, startAt, where } from "firebase/firestore";
+import { DocumentData, Query, doc, documentId, query, where, Timestamp } from "firebase/firestore";
 import { IBill } from "../models/Bill";
 import { GMT } from "../utils/time";
 import { HelperController } from "../helpers/Default";
@@ -59,13 +59,16 @@ export class ApiBill {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
-                        const st = req.params.start.split("-")
-                        const en = req.params.end.split("-")
-                        const date_start = new Date(`${st[1]}/${st[0]}/${st[2]}`)
-                        const date_end = new Date(`${en[1]}/${en[0]}/${en[2]}`)
-                        date_end.setDate(date_end.getDate() + 1)
+                        let st = req.params.start.split("-")
+                        let en = req.params.end.split("-")
+                        if (parseInt(st[0]) < 10) st[0] = `0${st[0]}`
+                        if (parseInt(en[0]) < 10) en[0] = `0${en[0]}`
+                        if (parseInt(st[1]) < 10) st[1] = `0${st[1]}`
+                        if (parseInt(en[1]) < 10) en[1] = `0${en[1]}`
+                        const date_start = Timestamp.fromDate(new Date(`${st[2]}-${st[1]}-${st[0]}T00:00:00`))
+                        const date_end = Timestamp.fromDate(new Date(`${en[2]}-${en[1]}-${en[0]}T23:59:59`))
 
-                        const q = query(billsCollectionRef, where("user_create_id.id", "==", authorize.id), where("created_at", ">=", date_start), where("created_at", "<", date_end))
+                        const q = query(billsCollectionRef, where("user_create_id.id", "==", authorize.id), where("created_at", ">", date_start), where("created_at", "<=", date_end))
                         const bill = await Helpers.getContain(q) as IBillDoc[]
                         if (!bill) return res.status(202).json({ message: "don't have bill" })
                         return res.json(bill)
