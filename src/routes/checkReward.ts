@@ -3,6 +3,8 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { HelperController } from "../helpers/Default";
+import { checkRewardsCollectionRef } from '../utils/firebase';
+import { ICheckRewardDoc } from '../models/Id';
 
 const Helpers = new HelperController()
 
@@ -13,7 +15,9 @@ export class ApiCheckReward {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
-
+                        const reward = await Helpers.getAll(checkRewardsCollectionRef) as ICheckRewardDoc[]
+                        if (!reward) return res.status(202).json({ message: "don't have reward" })
+                        return res.json(reward)
                     } else {
                         return res.sendStatus(authorize)
                     }
