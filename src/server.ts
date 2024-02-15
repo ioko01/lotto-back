@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request, Response } from 'express'
+import express, { Application, Response } from 'express'
 import bodyParser from "body-parser";
 import cors from "cors";
 import { config } from 'dotenv'
@@ -13,7 +13,6 @@ import { ApiRate } from './routes/rate';
 import { ApiDigitSemi } from './routes/digitSemi';
 import { ApiDigitClose } from './routes/digitClose';
 import { ApiCheckReward } from './routes/checkReward';
-import serverless from "serverless-http";
 import http from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './utils/socket-io';
@@ -24,8 +23,6 @@ import { authorization } from './middleware/authorization';
 import { TUserRole } from './models/User';
 import upload from 'express-fileupload'
 import { ApiFile } from './routes/file';
-import { createServer, proxy } from 'aws-serverless-express';
-import { Handler } from '@netlify/functions';
 import { creditHandler } from './socket/creditHandler';
 import * as fs from 'fs';
 import { getPath } from './utils/path';
