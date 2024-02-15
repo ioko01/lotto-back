@@ -169,11 +169,11 @@ File.previewFile('/get/file/:file', authenticate, ["ADMIN", "AGENT", "MANAGER", 
 // manager เพิ่ม credit ให้ member
 // member เพิ่มบิล
 // รอผลออกและให้ MANAGE_REWARD เป็นคนกรอกผล
-router.get("/api", (_, res: Response) => {
+router.get("/", (_, res: Response) => {
     res.send("Welcome to API")
 })
 
-APP.use("/api/", router)
+APP.use("/api", router)
 
 server.listen(PORT, () => {
     console.log(`⚡️[server]: Example app listening on port ${PORT}`)
