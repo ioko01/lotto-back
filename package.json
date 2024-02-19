@@ -13,7 +13,8 @@
     "socket.io": "^4.6.0",
     "ts-node": "^10.9.1",
     "utf8": "^3.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "express-fileupload": "^1.4.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -27,7 +28,6 @@
     "@types/utf8": "^3.0.3",
     "@types/uuid": "^9.0.0",
     "cpy-cli": "^4.2.0",
-    "express-fileupload": "^1.4.0",
     "typescript": "^4.9.5"
   },
   "name": "vite-lotto-backend",
