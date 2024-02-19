@@ -170,7 +170,7 @@ router.get("/", (_, res: Response) => {
     res.send("Welcome to API")
 })
 
-APP.use("/api", router)
+APP.use("/", router)
 
 server.listen(PORT, () => {
     console.log(`⚡️[server]: Example app listening on port ${PORT}`)
