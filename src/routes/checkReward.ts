@@ -3,8 +3,11 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { HelperController } from "../helpers/Default";
-import { checkRewardsCollectionRef } from '../utils/firebase';
+import { DBLottos, checkRewardsCollectionRef, db } from '../utils/firebase';
 import { ICheckRewardDoc } from '../models/Id';
+import { ICheckReward } from '../models/CheckReward';
+import { doc, where, query } from 'firebase/firestore';
+import { GMT } from '../utils/time';
 
 const Helpers = new HelperController()
 
@@ -113,7 +116,35 @@ export class ApiCheckReward {
                 const authorize = await authorization(req, roles)
                 if (authorize) {
                     if (authorize !== 401) {
+                        let admin_create_id;
+                        if (authorize.role === "AGENT") {
+                            admin_create_id = authorize.admin_create_id
+                        } else if (authorize.role === "ADMIN") {
+                            admin_create_id = authorize
+                        }
 
+                        const data = req.body as ICheckReward
+                        const lotto = await Helpers.getId(doc(db, DBLottos, data.lotto_id.id))
+                        if (!lotto) return res.status(202).json({ message: "don't have lotto" })
+                        const q = query(checkRewardsCollectionRef, where("lotto_id", "==", data.lotto_id))
+                        const checkReward = await Helpers.getContain(q)
+                        if (checkReward.length > 0) return res.status(202).json({ message: "this reward has been used" })
+                        const reward: ICheckReward = {
+                            lotto_id: data.lotto_id,
+                            reward: data.reward,
+                            times: data.times,
+                            user_create_id: authorize,
+                            admin_create_id: admin_create_id,
+                            created_at: GMT(),
+                            updated_at: GMT(),
+                        }
+                        await Helpers.add(checkRewardsCollectionRef, reward)
+                            .then(() => {
+                                return res.send({ statusCode: res.statusCode, message: "OK" })
+                            })
+                            .catch(error => {
+                                return res.send({ statusCode: res.statusCode, message: error })
+                            })
                     } else {
                         return res.sendStatus(authorize)
                     }

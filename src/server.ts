@@ -89,8 +89,8 @@ Store.getStoreAllMe('/get/store/me/:id', authenticate, ["ADMIN", "AGENT"])// age
 Store.getStoreMe('/get/store/me', authenticate, ["ADMIN", "AGENT", "MANAGER", "MANAGE_REWARD", "MEMBER"])// ดูร้านของตัวเอง
 Store.getStoreAll('/get/store', authenticate, ["ADMIN"])//ดูร้านทุกร้าน
 Store.addStore('/add/store', authenticate, ["ADMIN", "AGENT"])//เพิ่มร้าน
-Store.updateStore('/add/store', authenticate, ["ADMIN", "AGENT"])//อัพเดตร้าน
-Store.deleteStore('/add/store', authenticate, ["ADMIN", "AGENT"])//ลบร้าน (ทำเป็นสถานะลบออกเฉยๆ)
+Store.updateStore('/update/store', authenticate, ["ADMIN", "AGENT"])//อัพเดตร้าน
+Store.deleteStore('/delete/store', authenticate, ["ADMIN", "AGENT"])//ลบร้าน (ทำเป็นสถานะลบออกเฉยๆ)
 
 Rate.getRateAllMe('/get/rate/me/all', authenticate, ["ADMIN", "AGENT"])// ดูเรทราคาในเครือข่ายของตัวเอง
 Rate.getRateMe('/get/rate/me', authenticate, ["MANAGER", "MEMBER"])// ดูเรทราคาของร้านตัวเอง
@@ -118,10 +118,10 @@ DigitClose.deleteDigitClose('/delete/digitclose', authenticate, ["ADMIN", "AGENT
 // CheckReward.getCheckRewardId('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER"])
 // CheckReward.getCheckRewardMe('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER"])
 CheckReward.getCheckRewardAll('/get/reward/all', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
-CheckReward.getCheckRewardStore('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
-CheckReward.addCheckReward('/add/store', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
-CheckReward.updateCheckReward('/add/store', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
-CheckReward.deleteCheckReward('/add/store', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
+CheckReward.getCheckRewardStore('/get/reward/store', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
+CheckReward.addCheckReward('/add/reward', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
+CheckReward.updateCheckReward('/update/reward', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
+CheckReward.deleteCheckReward('/delete/reward', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
 
 User.getUserAll('/get/user/all', authenticate, ["ADMIN"])// ดูผู้ใช้งานทั้งหมด
 User.getUserAllIsRole('/get/user/role/:role', authenticate, ["ADMIN"])// ดูผู้ใช้งานตำแหน่ง
