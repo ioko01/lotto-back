@@ -21,3 +21,31 @@ export function GMT(): Date {
     return this_date
     // return new Date(Date.now() + 1000 * 60 * 60 * number);
 }
+
+export const getTomorrow = (t1: string, t2: string) => {
+    //check เวลาปิดน้อยกว่าหรือเท่ากับเวลาเปิด ถ้าน้อยกว่า จะเท่ากับงวด พรุ่งนี้
+    if (parseInt(t2.split(":")[0]) <= parseInt(t1.split(":")[0])) {
+        // ถ้าเวลาปิด == เวลาเปิด
+        if (parseInt(t2.split(":")[0]) == parseInt(t1.split(":")[0])) {
+            // ให้เช็ค นาที ปิด น้อยกว่า นาทีเปิด
+            if (parseInt(t2.split(":")[1]) < parseInt(t1.split(":")[1])) return true
+            return false
+        }
+        return true
+    }
+    return false
+}
+
+export const getYesterday = (t1: string, t2: string) => {
+    //check เวลาปัจจุบันมากกว่าหรือเท่ากับเวลาเปิด ถ้ามากกว่า จะเท่ากับงวด พรุ่งนี้
+    if (parseInt(t2.split(":")[0]) >= parseInt(t1.split(":")[0])) {
+        // ถ้าเวลาปิด == เวลาเปิด
+        if (parseInt(t2.split(":")[0]) == parseInt(t1.split(":")[0])) {
+            // ให้เช็ค นาที ปิด น้อยกว่า นาทีเปิด
+            if (parseInt(t2.split(":")[1]) > parseInt(t1.split(":")[1])) return true
+            return false
+        }
+        return true
+    }
+    return false
+}

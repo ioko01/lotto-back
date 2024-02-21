@@ -7,7 +7,7 @@ import { DBLottos, checkRewardsCollectionRef, db } from '../utils/firebase';
 import { ICheckRewardDoc } from '../models/Id';
 import { ICheckReward } from '../models/CheckReward';
 import { doc, where, query } from 'firebase/firestore';
-import { GMT } from '../utils/time';
+import { GMT, getTomorrow } from '../utils/time';
 
 const Helpers = new HelperController()
 
@@ -129,15 +129,38 @@ export class ApiCheckReward {
                         const q = query(checkRewardsCollectionRef, where("lotto_id", "==", data.lotto_id))
                         const checkReward = await Helpers.getContain(q)
                         if (checkReward.length > 0) return res.status(202).json({ message: "this reward has been used" })
+
+                        const date = new Date();
+                        let day = date.getDate().toString();
+                        let month = (date.getMonth() + 1).toString();
+                        let hour = date.getHours().toString();
+                        let minute = date.getMinutes().toString();
+                        if (parseInt(month) < 10) {
+                            month = `0${month}`;
+                        }
+                        if (parseInt(day) < 10) {
+                            day = `0${day}`;
+                        }
+
+                        if (getTomorrow(data.lotto_id.open, `${hour}:${minute}`)) {
+                            date.setDate(date.getDate() - 1).toString()
+                            day = date.getDate().toString()
+                        }
+
+                        if (data.top.length != 3) return res.status(202).json({ message: "invalid top digits" })
+                        if (data.bottom.length != 2) return res.status(202).json({ message: "invalid bottom digits" })
+
                         const reward: ICheckReward = {
                             lotto_id: data.lotto_id,
-                            reward: data.reward,
-                            times: data.times,
+                            top: data.top,
+                            bottom: data.bottom,
+                            times: `${day}-${month}-${date.getFullYear()}`,
                             user_create_id: authorize,
                             admin_create_id: admin_create_id,
                             created_at: GMT(),
                             updated_at: GMT(),
                         }
+
                         await Helpers.add(checkRewardsCollectionRef, reward)
                             .then(() => {
                                 return res.send({ statusCode: res.statusCode, message: "OK" })
