@@ -117,6 +117,8 @@ DigitClose.deleteDigitClose('/delete/digitclose', authenticate, ["ADMIN", "AGENT
 
 // CheckReward.getCheckRewardId('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER"])
 // CheckReward.getCheckRewardMe('/get/store', authenticate, ["ADMIN", "AGENT", "MANAGER"])
+// :start = วันที่เริ่มต้น :end = วันที่สิ้นสุด
+CheckReward.getCheckRewardAllWithDateStartEnd('/get/reward/lotto/:start/:end', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])// ดูบิลของฉัน
 CheckReward.getCheckRewardAll('/get/reward/all', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
 CheckReward.getCheckRewardStore('/get/reward/store', authenticate, ["ADMIN", "AGENT", "MANAGER", "MEMBER", "MANAGE_REWARD"])
 CheckReward.addCheckReward('/add/reward', authenticate, ["ADMIN", "AGENT", "MANAGE_REWARD"])
