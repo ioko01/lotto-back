@@ -190,7 +190,7 @@ export class ApiCheckReward {
                             lotto_id: data.lotto_id,
                             top: data.top,
                             bottom: data.bottom,
-                            times: Timestamp.fromDate(new Date(`${day}-${month}-${date.getFullYear()}T00:00:00`)),
+                            times: Timestamp.fromDate(new Date(`${date.getFullYear()}-${month}-${day}T00:00:00`)),
                             user_create_id: authorize,
                             admin_create_id: admin_create_id,
                             created_at: GMT(),
