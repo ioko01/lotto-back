@@ -52,7 +52,7 @@ export class ApiCheckReward {
                         if (parseInt(en[1]) < 10) en[1] = `0${en[1]}`
                         const date_start = Timestamp.fromDate(new Date(`${st[2]}-${st[1]}-${st[0]}T00:00:00`))
                         const date_end = Timestamp.fromDate(new Date(`${en[2]}-${en[1]}-${en[0]}T23:59:59`))
-
+                        
                         const q = query(checkRewardsCollectionRef, where("created_at", ">", date_start), where("created_at", "<=", date_end))
                         const reward = await Helpers.getContain(q) as ICheckRewardDoc[]
                         if (!reward) return res.status(202).json({ message: "don't have reward" })
@@ -185,12 +185,12 @@ export class ApiCheckReward {
 
                         if (data.top.length != 3) return res.status(202).json({ message: "invalid top digits" })
                         if (data.bottom.length != 2) return res.status(202).json({ message: "invalid bottom digits" })
-
+                        
                         const reward: ICheckReward = {
                             lotto_id: data.lotto_id,
                             top: data.top,
                             bottom: data.bottom,
-                            times: `${day}-${month}-${date.getFullYear()}`,
+                            times: Timestamp.fromDate(new Date(`${day}-${month}-${date.getFullYear()}T00:00:00`)),
                             user_create_id: authorize,
                             admin_create_id: admin_create_id,
                             created_at: GMT(),
