@@ -6,7 +6,7 @@ import { authorization } from "../middleware/authorization";
 import { DBBills, DBLottos, DBRates, DBStores, DBUsers, billsCollectionRef, db } from "../utils/firebase";
 import { DocumentData, Query, doc, documentId, query, where, Timestamp } from "firebase/firestore";
 import { IBill } from "../models/Bill";
-import { GMT } from "../utils/time";
+import { GMT, getTomorrow } from "../utils/time";
 import { HelperController } from "../helpers/Default";
 import { IBillDoc, ILottoDoc, IRateDoc, IStoreDoc } from '../models/Id';
 
@@ -200,13 +200,26 @@ export class ApiBill {
                             return res.status(202).json({ message: "don't have rate in store" })
                         }
 
-                        let st = req.params.start.split("-")
-                        let en = req.params.end.split("-")
-                        if (parseInt(st[0]) < 10) st[0] = `0${st[0]}`
-                        if (parseInt(en[0]) < 10) en[0] = `0${en[0]}`
-                        if (parseInt(st[1]) < 10) st[1] = `0${st[1]}`
-                        if (parseInt(en[1]) < 10) en[1] = `0${en[1]}`
-                        const dt = Timestamp.fromDate(new Date(data.times as Date))
+
+                        const date = new Date(data.times as Date)
+
+                        let day = date.getDate().toString();
+                        let month = (date.getMonth() + 1).toString();
+                        let hour = date.getHours().toString();
+                        let minute = date.getMinutes().toString();
+                        if (parseInt(month) < 10) {
+                            month = `0${month}`;
+                        }
+                        if (parseInt(day) < 10) {
+                            day = `0${day}`;
+                        }
+
+                        if (getTomorrow(data.lotto_id.open, `${hour}:${minute}`)) {
+                            date.setDate(date.getDate() - 1).toString()
+                            day = date.getDate().toString()
+                        }
+
+                        const dateTime = Timestamp.fromDate(new Date(`${date.getFullYear()}-${month}-${day}T00:00:00`))
 
                         const bill: IBill = {
                             lotto_id: data.lotto_id,
@@ -214,7 +227,7 @@ export class ApiBill {
                             rate_id: data.rate_id,
                             status: "WAIT",
                             store_id: data.store_id,
-                            times: dt,
+                            times: dateTime,
                             one_digits: data.one_digits,
                             two_digits: data.two_digits,
                             three_digits: data.three_digits,
@@ -225,12 +238,12 @@ export class ApiBill {
                         }
 
                         const price = this.calculatePrice(data.one_digits!, data.two_digits!, data.three_digits!)
-                        
+
                         if (authorize.credit < (price - commissions)) return res.status(202).json({ message: "no credit" })
 
                         await Helpers.add(billsCollectionRef, bill)
                             .then(async () => {
-                                
+
                                 await Helpers.update(authorize.id, DBUsers, { credit: authorize.credit - (price - commissions) })
                                     .then(() => {
                                         res.send({ statusCode: res.statusCode, message: "OK" })
