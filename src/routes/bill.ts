@@ -217,11 +217,12 @@ export class ApiBill {
                         }
 
                         const price = this.calculatePrice(data.one_digits!, data.two_digits!, data.three_digits!)
+                        
+                        if (authorize.credit < (price - commissions)) return res.status(202).json({ message: "no credit" })
 
                         await Helpers.add(billsCollectionRef, bill)
                             .then(async () => {
-                                if (authorize.credit < (price - commissions)) return res.status(202).json({ message: "no credit" })
-
+                                
                                 await Helpers.update(authorize.id, DBUsers, { credit: authorize.credit - (price - commissions) })
                                     .then(() => {
                                         res.send({ statusCode: res.statusCode, message: "OK" })
