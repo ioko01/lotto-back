@@ -4,7 +4,7 @@ import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { HelperController } from "../helpers/Default";
 import { DBLottos, checkRewardsCollectionRef, db } from '../utils/firebase';
-import { ICheckRewardDoc } from '../models/Id';
+import { ICheckRewardDoc, ILottoDoc } from '../models/Id';
 import { ICheckReward } from '../models/CheckReward';
 import { doc, where, query, Timestamp } from 'firebase/firestore';
 import { GMT, getTomorrow } from '../utils/time';
@@ -53,7 +53,7 @@ export class ApiCheckReward {
                         const date_start = Timestamp.fromDate(new Date(`${st[2]}-${st[1]}-${st[0]}T00:00:00`))
                         const date_end = Timestamp.fromDate(new Date(`${en[2]}-${en[1]}-${en[0]}T23:59:59`))
 
-                        const q = query(checkRewardsCollectionRef, where("created_at", ">", date_start), where("created_at", "<=", date_end))
+                        const q = query(checkRewardsCollectionRef, where("times", ">=", date_start), where("times", "<=", date_end))
                         const reward = await Helpers.getContain(q) as ICheckRewardDoc[]
                         if (!reward) return res.status(202).json({ message: "don't have reward" })
                         return res.json(reward)
@@ -160,11 +160,8 @@ export class ApiCheckReward {
                         }
 
                         const data = req.body as ICheckReward
-                        const lotto = await Helpers.getId(doc(db, DBLottos, data.lotto_id.id))
+                        const lotto = await Helpers.getId(doc(db, DBLottos, data.lotto_id.id)) as ILottoDoc
                         if (!lotto) return res.status(202).json({ message: "don't have lotto" })
-                        const q = query(checkRewardsCollectionRef, where("lotto_id", "==", data.lotto_id))
-                        const checkReward = await Helpers.getContain(q)
-                        if (checkReward.length > 0) return res.status(202).json({ message: "this reward has been used" })
 
                         if (!data.times) return res.status(202).json({ message: "date is invalid" })
 
@@ -187,12 +184,25 @@ export class ApiCheckReward {
 
                         if (data.top.length != 3) return res.status(202).json({ message: "invalid top digits" })
                         if (data.bottom.length != 2) return res.status(202).json({ message: "invalid bottom digits" })
+                        const date_start = Timestamp.fromDate(new Date(`${date.getFullYear()}-${month}-${day}T00:00:00`))
+                        const date_end = Timestamp.fromDate(new Date(`${date.getFullYear()}-${month}-${day}T23:59:59`))
+
+
+                        const q = query(checkRewardsCollectionRef, where("lotto_id.id", "==", data.lotto_id.id))
+                        const checkLotto = await Helpers.getContain(q) as ICheckReward[]
+                        if (checkLotto.length > 0) {
+                            const q = query(checkRewardsCollectionRef, where("times", ">=", date_start), where("times", "<=", date_end))
+                            const checkReward = await Helpers.getContain(q) as ICheckReward[]
+                            if (checkReward.length > 0) return res.status(202).json({ message: "this reward has been used" })
+                        }
+
+
 
                         const reward: ICheckReward = {
                             lotto_id: data.lotto_id,
                             top: data.top,
                             bottom: data.bottom,
-                            times: Timestamp.fromDate(new Date(`${date.getFullYear()}-${month}-${day}T00:00:00`)),
+                            times: date_start,
                             user_create_id: authorize,
                             admin_create_id: admin_create_id,
                             created_at: GMT(),
