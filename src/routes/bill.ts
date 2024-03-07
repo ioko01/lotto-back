@@ -200,13 +200,21 @@ export class ApiBill {
                             return res.status(202).json({ message: "don't have rate in store" })
                         }
 
+                        let st = req.params.start.split("-")
+                        let en = req.params.end.split("-")
+                        if (parseInt(st[0]) < 10) st[0] = `0${st[0]}`
+                        if (parseInt(en[0]) < 10) en[0] = `0${en[0]}`
+                        if (parseInt(st[1]) < 10) st[1] = `0${st[1]}`
+                        if (parseInt(en[1]) < 10) en[1] = `0${en[1]}`
+                        const dt = Timestamp.fromDate(new Date(data.times as Date))
+
                         const bill: IBill = {
                             lotto_id: data.lotto_id,
                             note: data.note,
                             rate_id: data.rate_id,
                             status: "WAIT",
                             store_id: data.store_id,
-                            times: data.times,
+                            times: dt,
                             one_digits: data.one_digits,
                             two_digits: data.two_digits,
                             three_digits: data.three_digits,
