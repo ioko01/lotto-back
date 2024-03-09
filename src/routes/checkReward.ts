@@ -3,7 +3,7 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { HelperController } from "../helpers/Default";
-import { DBLottos, checkRewardsCollectionRef, db } from '../utils/firebase';
+import { DBBills, DBLottos, checkRewardsCollectionRef, db } from '../utils/firebase';
 import { ICheckRewardDoc, ILottoDoc } from '../models/Id';
 import { ICheckReward } from '../models/CheckReward';
 import { doc, where, query, Timestamp } from 'firebase/firestore';
@@ -196,8 +196,6 @@ export class ApiCheckReward {
                             if (checkReward.length > 0) return res.status(202).json({ message: "this reward has been used" })
                         }
 
-
-
                         const reward: ICheckReward = {
                             lotto_id: data.lotto_id,
                             top: data.top,
@@ -210,8 +208,14 @@ export class ApiCheckReward {
                         }
 
                         await Helpers.add(checkRewardsCollectionRef, reward)
-                            .then(() => {
-                                return res.send({ statusCode: res.statusCode, message: "OK" })
+                            .then(async () => {
+                                await Helpers.update(data.lotto_id.id, DBBills, { status: "REWARD" })
+                                    .then(() => {
+                                        return res.send({ statusCode: res.statusCode, message: "OK" })
+                                    })
+                                    .catch(error => {
+                                        res.send({ statusCode: res.statusCode, message: error })
+                                    })
                             })
                             .catch(error => {
                                 return res.send({ statusCode: res.statusCode, message: error })
