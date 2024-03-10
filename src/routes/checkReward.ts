@@ -3,8 +3,8 @@ import { router } from "../server";
 import { TUserRole } from "../models/User";
 import { authorization } from "../middleware/authorization";
 import { HelperController } from "../helpers/Default";
-import { DBBills, DBLottos, checkRewardsCollectionRef, db } from '../utils/firebase';
-import { ICheckRewardDoc, ILottoDoc } from '../models/Id';
+import { DBBills, DBLottos, billsCollectionRef, checkRewardsCollectionRef, db } from '../utils/firebase';
+import { IBillDoc, ICheckRewardDoc, ILottoDoc } from '../models/Id';
 import { ICheckReward } from '../models/CheckReward';
 import { doc, where, query, Timestamp } from 'firebase/firestore';
 import { GMT, getTomorrow } from '../utils/time';
@@ -209,13 +209,27 @@ export class ApiCheckReward {
 
                         await Helpers.add(checkRewardsCollectionRef, reward)
                             .then(async () => {
-                                await Helpers.update(data.lotto_id.id, DBBills, { status: "REWARD" })
-                                    .then(() => {
-                                        return res.send({ statusCode: res.statusCode, message: "OK" })
-                                    })
-                                    .catch(error => {
-                                        res.send({ statusCode: res.statusCode, message: error })
-                                    })
+                                const q = query(checkRewardsCollectionRef, where("lotto_id.id", "==", data.lotto_id.id))
+                                const checkLotto = await Helpers.getContain(q) as ICheckReward[]
+                                if (checkLotto.length > 0) {
+                                    const q = query(billsCollectionRef, where("times", ">=", date_start), where("times", "<=", date_end))
+                                    const selectBillReward = await Helpers.getContain(q) as IBillDoc[]
+                                    if (selectBillReward.length > 0) {
+                                        try {
+                                            checkLotto.map((l) => {
+                                                selectBillReward.map(async (bill_id) => {
+                                                    if (l.lotto_id.id == bill_id.lotto_id.id) {
+                                                        await Helpers.update(bill_id.id, DBBills, { status: "REWARD" })
+                                                    }
+                                                })
+                                            })
+                                            res.json({ statusCode: res.statusCode, message: "OK" })
+                                        } catch (error) {
+                                            res.json({ statusCode: res.statusCode, message: error })
+                                        }
+                                    }
+                                }
+
                             })
                             .catch(error => {
                                 return res.send({ statusCode: res.statusCode, message: error })
